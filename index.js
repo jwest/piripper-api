@@ -4,7 +4,6 @@ const zip = require('express-zip');
 const Albums = require('./albums');
 
 const port = process.env.PORT || 3000;
-const host = 'http://localhost:3000';
 const albumPath = process.argv[2];
 zip.options = { level: 0 };
 
@@ -17,8 +16,8 @@ if (!albumPath) {
 
 const albums = new Albums(albumPath);
 
-function url(path) {
-  return `${host}${path}`;
+function url(req, path) {
+  return `${req.protocol}://${req.headers.host}${path}`;
 }
 
 app.get('/download/album/:name', (req, res) => {
@@ -38,7 +37,7 @@ app.get('/api/albums', (req, res) => {
       .map(name => ({ 
         name,
         download: { 
-          zip: url(`/download/album/${name}`)
+          zip: url(req, `/download/album/${name}`)
         },
       })),
   });
@@ -46,7 +45,7 @@ app.get('/api/albums', (req, res) => {
 
 app.get('/api', (req, res) => {
   res.send({
-    'albums': url('/api/albums/')
+    'albums': url(req, '/api/albums/')
   });
 });
 
