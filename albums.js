@@ -8,6 +8,7 @@ module.exports = class Albums {
     getAll() {
         return FileHound.create()
             .path(this.albumPath)
+            .ignoreHiddenDirectories()
             .depth(0)
             .directory()
             .findSync()

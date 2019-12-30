@@ -37,7 +37,7 @@ app.get('/api/albums', (req, res) => {
       .map(name => ({ 
         name,
         download: { 
-          zip: url(req, `/download/album/${name}`)
+          zip: url(req, `/download/album/${name.replace(/ /gi, '%20')}`)
         },
       })),
   });
