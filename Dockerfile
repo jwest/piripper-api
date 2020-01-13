@@ -1,4 +1,4 @@
-FROM node:13
+FROM arm32v7/node:13
 
 WORKDIR /usr/src/app
 
